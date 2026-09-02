@@ -1,0 +1,14 @@
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/bin/Debug/net10.0/CvManagementSystem.Data.deps.json
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/bin/Debug/net10.0/CvManagementSystem.Data.runtimeconfig.json
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/bin/Debug/net10.0/CvManagementSystem.Data.dll
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/bin/Debug/net10.0/CvManagementSystem.Data.pdb
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/obj/Debug/net10.0/CvManagementSystem.Data.csproj.AssemblyReference.cache
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/obj/Debug/net10.0/CvManagementSystem.Data.GeneratedMSBuildEditorConfig.editorconfig
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/obj/Debug/net10.0/CvManagementSystem.Data.AssemblyInfoInputs.cache
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/obj/Debug/net10.0/CvManagementSystem.Data.AssemblyInfo.cs
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/obj/Debug/net10.0/CvManagementSystem.Data.csproj.CoreCompileInputs.cache
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/obj/Debug/net10.0/CvManagementSystem.Data.dll
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/obj/Debug/net10.0/refint/CvManagementSystem.Data.dll
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/obj/Debug/net10.0/CvManagementSystem.Data.pdb
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/obj/Debug/net10.0/CvManagementSystem.Data.genruntimeconfig.cache
+/Users/mahdi/iTransition/FinalProject/CvManagementSystem/CvManagementSystem.Data/obj/Debug/net10.0/ref/CvManagementSystem.Data.dll
