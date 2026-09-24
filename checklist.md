@@ -17,24 +17,24 @@
 
 ## Phase 0: Plan (before writing code)
 
-- [ ] Copy every feature from the spec into a task list (GitHub Issues or a notes file). *You can't finish what you haven't listed.*
-- [ ] Label each task **Core**, **Killer feature**, or **Bonus**. Bonus is last.
-- [ ] Draw the database diagram (paper or dbdiagram.io) using the tables in Phase 3.
-- [ ] Create free accounts: GitHub, Supabase, Cloudinary, Render, Google Cloud Console, Meta for Developers.
-- [ ] Put the "Strict DON'Ts" and the two -20% UI penalties at the top of your README as a reminder.
+- [x] Copy every feature from the spec into a task list (in README.md).
+- [x] Label each task **Core**, **Killer feature**, or **Bonus**.
+- [x] Draw the database diagram and document system design (in DATABASE_DESIGN.md).
+- [x] Create free accounts: GitHub, Supabase, Cloudinary, Render, Google Cloud Console.
+- [x] Put the "Strict DON'Ts" and the two -20% UI penalties at the top of your README as a reminder.
 
 **Done when:** you have a task list, a diagram, and all accounts.
 
 ## Phase 1: Set up your tools
 
-- [ ] Install the .NET SDK (v10.0), Node.js, Git, and an editor. Check with `dotnet --version` and `node -v`.
-- [ ] Create one Git repo with `/backend` and `/frontend`. Add a `.gitignore` (`bin/`, `obj/`, `node_modules/`, secret config files).
-- [ ] Backend: `dotnet new webapi -o backend`. Use controllers (easier to follow than minimal APIs).
-- [ ] Frontend: `npm create vite@latest frontend -- --template react` (or `react-ts`).
-- [ ] Backend packages: `Npgsql.EntityFrameworkCore.PostgreSQL`, `Microsoft.EntityFrameworkCore.Design`, `Microsoft.AspNetCore.Authentication.JwtBearer`, `CloudinaryDotNet`.
-- [ ] Frontend packages: `@supabase/supabase-js`, `bootstrap`, `react-bootstrap`, `react-router-dom`, `@tanstack/react-query`, `@tanstack/react-table`, `react-i18next`, `i18next`, `react-markdown`, `react-dropzone`, `react-select`, `react-tagcloud`, plus a Markdown editor such as `@uiw/react-md-editor`.
-- [ ] In `vite.config`, proxy `/api` to your local backend.
-- [ ] Keep secrets out of Git: use `dotnet user-secrets` locally and environment variables in production.
+- [x] Install the .NET SDK (v10.0), Node.js, Git, and an editor. Check with `dotnet --version` and `node -v`.
+- [x] Create one Git repo with `/backend` and `/frontend`. Add a `.gitignore` (`bin/`, `obj/`, `node_modules/`, secret config files).
+- [x] Backend: `dotnet new webapi -o backend`. Use controllers (easier to follow than minimal APIs).
+- [x] Frontend: `npm create vite@latest frontend -- --template react` (JavaScript).
+- [x] Backend packages: `Npgsql.EntityFrameworkCore.PostgreSQL`, `Microsoft.EntityFrameworkCore.Design`, `Microsoft.AspNetCore.Authentication.JwtBearer`, `CloudinaryDotNet`, `Microsoft.AspNetCore.OpenApi` (Swagger).
+- [x] Frontend packages: `@supabase/supabase-js`, `bootstrap`, `react-bootstrap`, `react-router-dom`, `@tanstack/react-query`, `@tanstack/react-table`, `react-i18next`, `i18next`, `react-markdown`, `react-dropzone`, `react-select`, `react-tagcloud`, plus a Markdown editor such as `@uiw/react-md-editor`.
+- [x] In `vite.config`, proxy `/api` to your local backend (`http://localhost:5190`).
+- [x] Keep secrets out of Git: use `dotnet user-secrets` locally and environment variables in production.
 
 **Done when:** `dotnet run` and `npm run dev` both start.
 
@@ -42,33 +42,37 @@
 
 *This proves the whole chain works while the app is still tiny.*
 
-- [ ] Create a Supabase project. Copy the Postgres connection string. Supabase's direct connection can be IPv6-only, so hosts like Render may need the **pooler** string (check Supabase's current docs). You use Supabase as both your Postgres host and your Auth provider.
-- [ ] Add `AppDbContext`, register it with `UseNpgsql(...)`, and run `dotnet ef migrations add Init` then `dotnet ef database update`.
-- [ ] Add `GET /api/health`. Show its result on a React page.
-- [ ] In `Program.cs`, serve the React build: `app.UseDefaultFiles(); app.UseStaticFiles(); app.MapFallbackToFile("index.html");`
-- [ ] Also in `Program.cs`, read the `PORT` environment variable, listen on it, and call `db.Database.Migrate()` at startup.
-- [ ] Write a multi-stage Dockerfile (React build, then .NET publish, then run). Match the .NET version and DLL name to your project:
+- [x] Create a Supabase project. Copy the Postgres connection string. Supabase's direct connection can be IPv6-only, so hosts like Render may need the **pooler** string (check Supabase's current docs). You use Supabase as both your Postgres host and your Auth provider.
+- [x] Add `AppDbContext`, register it with `UseNpgsql(...)`, and run `dotnet ef migrations add Init` then `dotnet ef database update`.
+- [x] Add `GET /api/health`. Show its result on a React page.
+- [x] In `Program.cs`, serve the React build: `app.UseDefaultFiles(); app.UseStaticFiles(); app.MapFallbackToFile("index.html");`
+- [x] Also in `Program.cs`, read the `PORT` environment variable, listen on it, and call `db.Database.Migrate()` at startup.
+- [x] Write a multi-stage Dockerfile (React build, then .NET publish, then run). Match the .NET version and DLL name to your project:
 
 ```dockerfile
-FROM node:22 AS web
+FROM node:22-alpine AS web
 WORKDIR /web
-COPY frontend/ .
-RUN npm ci && npm run build
+COPY frontend/package*.json ./
+RUN npm ci
+COPY frontend/ ./
+RUN npm run build
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS api
 WORKDIR /src
-COPY backend/ .
+COPY backend/*.csproj ./
+RUN dotnet restore
+COPY backend/ ./
 COPY --from=web /web/dist ./wwwroot
 RUN dotnet publish -c Release -o /out
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
 COPY --from=api /out .
-ENTRYPOINT ["dotnet", "YourProject.dll"]
+ENTRYPOINT ["dotnet", "backend.dll"]
 ```
 
-- [ ] Create a Render **Web Service** from the repo (Docker). Add the connection string as an environment variable (`ConnectionStrings__Default`).
-- [ ] Add `UseForwardedHeaders` so the app knows it is behind HTTPS (needed for redirects).
+- [ ] Create a Render **Web Service** from the repo (Docker). Add the connection string as an environment variable (`ConnectionStrings__DefaultConnection`).
+- [x] Add `UseForwardedHeaders` so the app knows it is behind HTTPS (needed for redirects).
 
 **Done when:** a public URL shows your React page with data from the database. Free hosts sleep when idle, so the first request is slow.
 
