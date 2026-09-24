@@ -1,6 +1,11 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using backend.Data;
+using backend.Filters;
+using backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,13 +16,42 @@ if (!string.IsNullOrEmpty(port))
     builder.WebHost.UseUrls($"http://+:{port}");
 }
 
-// Add services to the container.
-builder.Services.AddControllers();
+// Add services to the container with global filters
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<BlockedUserFilter>();
+});
 builder.Services.AddOpenApi();
 
 // Register PostgreSQL database context
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configure JWT Bearer Authentication with Supabase OIDC
+var supabaseUrl = builder.Configuration["Supabase:Url"] ?? "https://okxxoowiiwycpukzrgwc.supabase.co";
+var supabaseAuthority = $"{supabaseUrl}/auth/v1";
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = supabaseAuthority;
+        options.Audience = "authenticated";
+        options.RequireHttpsMetadata = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = supabaseAuthority,
+            ValidateAudience = true,
+            ValidAudience = "authenticated",
+            ValidateLifetime = true
+        };
+    });
+
+// Register Claims Transformation to inject PostgreSQL roles & auto-provision users
+builder.Services.AddScoped<IClaimsTransformation, SupabaseClaimsTransformation>();
+
+// Register Cloudinary Service for signed image uploads
+builder.Services.AddSingleton<CloudinaryService>();
 
 // Enable CORS for local Vite dev server
 builder.Services.AddCors(options =>
@@ -67,6 +101,7 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.UseCors();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

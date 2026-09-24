@@ -1,114 +1,126 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './index.css'
+
+import { AuthProvider } from './context/AuthContext'
+import { AppNavbar } from './components/Navbar'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import { HomePage } from './pages/HomePage'
+import { PositionsPage } from './pages/PositionsPage'
+import { SettingsPage } from './pages/SettingsPage'
+import { AttributesPage } from './pages/AttributesPage'
+import { ProfilePage } from './pages/ProfilePage'
+
+function ProfilePlaceholder() {
+  return (
+    <div className="container py-5 text-center">
+      <h3 className="fw-bold mb-3">User Profile (Virtual CV)</h3>
+      <p className="text-muted">
+        Profile builder (Me attributes, dynamic EAV values, Cloudinary photo upload, and projects) is scheduled for Phase 6.
+      </p>
+    </div>
+  )
+}
+
+function AttributesPlaceholder() {
+  return (
+    <div className="container py-5 text-center">
+      <h3 className="fw-bold mb-3">Attribute Library</h3>
+      <p className="text-muted">
+        Attribute Library (full table toolbar, types, and search) is scheduled for Phase 5.
+      </p>
+    </div>
+  )
+}
+
+function AdminUsersPlaceholder() {
+  return (
+    <div className="container py-5 text-center">
+      <h3 className="fw-bold mb-3">User Management</h3>
+      <p className="text-muted">
+        Admin user list, role promotion/demotion, and account blocking is scheduled for Phase 9.
+      </p>
+    </div>
+  )
+}
 
 function App() {
-  const [health, setHealth] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-
-  const checkHealth = async () => {
-    setLoading(true)
-    setError(null)
-    try {
-      const response = await fetch('/api/health')
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      const data = await response.json()
-      setHealth(data)
-    } catch (err) {
-      setError(err.message)
-      setHealth(null)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    checkHealth()
-  }, [])
-
   return (
-    <div className="container py-5">
-      <div className="row justify-content-center">
-        <div className="col-md-8 col-lg-6">
-          <div className="card shadow-sm border-0">
-            <div className="card-header bg-primary text-white py-3">
-              <h4 className="mb-0 text-center fw-bold">CV Management System</h4>
-              <p className="text-center mb-0 text-white-50 small">Phase 2: Walking Skeleton</p>
+    <AuthProvider>
+      <BrowserRouter>
+        <div className="d-flex flex-column min-vh-100">
+          <AppNavbar />
+
+          <main className="flex-grow-1">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/positions" element={<PositionsPage />} />
+              
+              {/* Authenticated routes */}
+              <Route
+                path="/settings"
+                element={
+                  <ProtectedRoute>
+                    <SettingsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <ProfilePage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile/:id"
+                element={
+                  <ProtectedRoute>
+                    <ProfilePage />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Recruiter & Admin routes */}
+              <Route
+                path="/attributes"
+                element={
+                  <ProtectedRoute allowedRoles={['Recruiter', 'Administrator']}>
+                    <AttributesPage />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Admin only routes */}
+              <Route
+                path="/admin/users"
+                element={
+                  <ProtectedRoute allowedRoles={['Administrator']}>
+                    <AdminUsersPlaceholder />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Fallback */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </main>
+
+          <footer className="py-4 border-top text-center text-muted small glass-panel mt-auto">
+            <div className="container">
+              <p className="mb-1">
+                <strong>reCruitoV</strong> &mdash; Web-Based CV &amp; Candidate Management System
+              </p>
+              <p className="mb-0 text-dimmed">
+                ASP.NET Core Web API (.NET 10) &middot; Supabase PostgreSQL &middot; React 19 + Bootstrap
+              </p>
             </div>
-            <div className="card-body p-4">
-              <h5 className="card-title fw-bold mb-3">System Health Status</h5>
-
-              {loading && (
-                <div className="text-center py-4">
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                  <p className="mt-2 text-muted small">Checking connection to backend and database...</p>
-                </div>
-              )}
-
-              {error && (
-                <div className="alert alert-danger" role="alert">
-                  <h6 className="alert-heading fw-bold">Connection Failed</h6>
-                  <p className="mb-0 small">{error}</p>
-                  <p className="mb-0 small text-muted mt-1">Make sure the backend is running on <code>http://localhost:5190</code>.</p>
-                </div>
-              )}
-
-              {health && !loading && (
-                <div className="list-group list-group-flush mb-4">
-                  <div className="list-group-item d-flex justify-content-between align-items-center px-0">
-                    <div>
-                      <div className="fw-semibold">C# .NET 10 Web API</div>
-                      <small className="text-muted">Route: /api/health</small>
-                    </div>
-                    <span className={`badge ${health.status === 'Healthy' ? 'bg-success' : 'bg-warning text-dark'}`}>
-                      {health.status}
-                    </span>
-                  </div>
-
-                  <div className="list-group-item d-flex justify-content-between align-items-center px-0">
-                    <div>
-                      <div className="fw-semibold">Supabase PostgreSQL</div>
-                      <small className="text-muted">EF Core AppDbContext</small>
-                    </div>
-                    <span className={`badge ${health.database === 'Connected' ? 'bg-success' : 'bg-danger'}`}>
-                      {health.database}
-                    </span>
-                  </div>
-
-                  {health.error && (
-                    <div className="list-group-item px-0 text-danger small">
-                      <strong>DB Error:</strong> {health.error}
-                    </div>
-                  )}
-
-                  <div className="list-group-item d-flex justify-content-between align-items-center px-0">
-                    <span className="text-muted small">Server Time (UTC)</span>
-                    <span className="text-muted small">{new Date(health.timestamp).toLocaleString()}</span>
-                  </div>
-                </div>
-              )}
-
-              <div className="d-grid mt-3">
-                <button
-                  className="btn btn-outline-primary"
-                  onClick={checkHealth}
-                  disabled={loading}
-                >
-                  {loading ? 'Testing...' : 'Re-check Connection'}
-                </button>
-              </div>
-            </div>
-            <div className="card-footer bg-light text-center py-2 text-muted small">
-              ASP.NET Core Web API + Supabase PostgreSQL + React (Vite) + Bootstrap
-            </div>
-          </div>
+          </footer>
         </div>
-      </div>
-    </div>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 

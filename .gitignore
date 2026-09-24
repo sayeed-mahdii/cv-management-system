@@ -29,3 +29,8 @@ usersecrets/
 # OS specific
 .DS_Store
 Thumbs.db
+
+# Internal Project Specifications & Checklists
+checklist.md
+useCase_checklist.md
+iTransition_Final_Project_Specification.pdf
