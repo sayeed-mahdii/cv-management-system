@@ -1,5 +1,0 @@
-<Solution>
-  <Project Path="CvManagementSystem.Business/CvManagementSystem.Business.csproj" />
-  <Project Path="CvManagementSystem.Data/CvManagementSystem.Data.csproj" />
-  <Project Path="CvManagementSystem.Web/CvManagementSystem.Web.csproj" />
-</Solution>

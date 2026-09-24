@@ -1,0 +1,31 @@
+# .NET build artifacts
+**/bin/
+**/obj/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio & VS Code
+.vs/
+.vscode/
+.idea/
+
+# Node & Frontend
+**/node_modules/
+**/dist/
+**/build/
+.npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+appsettings.Development.json
+usersecrets/
+
+# OS specific
+.DS_Store
+Thumbs.db
