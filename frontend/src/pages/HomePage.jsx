@@ -5,7 +5,7 @@ import { api } from '../services/api'
 import { AuthModal } from '../components/AuthModal'
 
 export function HomePage() {
-  const { user, profile, roles, isAuthenticated, isBlocked, blockedMessage, isSupabaseConfigured } = useAuth()
+  const { user, profile, roles, isAuthenticated, isBlocked, blockedMessage } = useAuth()
   const [health, setHealth] = useState(null)
   const [healthLoading, setHealthLoading] = useState(true)
   const [authModalOpen, setAuthModalOpen] = useState(false)
@@ -40,25 +40,6 @@ export function HomePage() {
               <p className="mb-0 small">
                 {blockedMessage || 'Your account has been blocked by an administrator. Modifying CVs, profiles, and positions is disabled.'}
               </p>
-            </div>
-          </Alert>
-        )}
-
-        {/* Supabase Anon Key Setup Notice if not configured */}
-        {!isSupabaseConfigured && (
-          <Alert variant="warning" className="mb-4 rounded-4 shadow-sm">
-            <div className="d-flex align-items-start gap-3">
-              <i className="bi bi-info-circle-fill text-warning fs-3 mt-1"></i>
-              <div>
-                <h5 className="fw-bold mb-1">Supabase Public Anon Key Required</h5>
-                <p className="small mb-2 text-muted">
-                  To test live sign-in and registration, create a <code>frontend/.env.local</code> file and add your Supabase project API key:
-                </p>
-                <pre className="bg-dark text-light p-3 rounded-3 small mb-0">
-                  VITE_SUPABASE_URL=https://okxxoowiiwycpukzrgwc.supabase.co{'\n'}
-                  VITE_SUPABASE_ANON_KEY=&lt;your_supabase_anon_key&gt;
-                </pre>
-              </div>
             </div>
           </Alert>
         )}
