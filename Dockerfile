@@ -1,6 +1,13 @@
 # Stage 1: Build the React frontend
 FROM node:22-alpine AS web
 WORKDIR /web
+
+# Declare build args provided by Render / Docker build, expose to Vite build environment
+ARG VITE_SUPABASE_URL
+ARG VITE_SUPABASE_ANON_KEY
+ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL
+ENV VITE_SUPABASE_ANON_KEY=$VITE_SUPABASE_ANON_KEY
+
 COPY frontend/package*.json ./
 RUN npm ci
 COPY frontend/ ./
