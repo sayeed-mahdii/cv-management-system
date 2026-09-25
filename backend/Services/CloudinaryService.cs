@@ -21,7 +21,10 @@ public class CloudinaryService
         var apiKey = _config["Cloudinary:ApiKey"] ?? Environment.GetEnvironmentVariable("CLOUDINARY_API_KEY") ?? string.Empty;
         var apiSecret = _config["Cloudinary:ApiSecret"] ?? Environment.GetEnvironmentVariable("CLOUDINARY_API_SECRET") ?? string.Empty;
 
-        var cloudinaryUrl = _config.GetConnectionString("Cloudinary") ?? Environment.GetEnvironmentVariable("CLOUDINARY_URL");
+        var cloudinaryUrl = _config.GetConnectionString("Cloudinary")
+            ?? _config["Cloudinary:Url"]
+            ?? _config["CLOUDINARY_URL"]
+            ?? Environment.GetEnvironmentVariable("CLOUDINARY_URL");
 
         if (!string.IsNullOrEmpty(cloudinaryUrl))
         {

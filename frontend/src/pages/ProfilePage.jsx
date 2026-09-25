@@ -203,7 +203,8 @@ export function ProfilePage() {
         )
 
         if (!uploadRes.ok) {
-          throw new Error('Cloudinary upload rejected.')
+          const errData = await uploadRes.json().catch(() => ({}))
+          throw new Error(errData.error?.message || `Cloudinary upload rejected (${uploadRes.status}).`)
         }
 
         const cloudRes = await uploadRes.json()

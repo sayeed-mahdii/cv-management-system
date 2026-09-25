@@ -29,6 +29,7 @@ usersecrets/
 # OS specific
 .DS_Store
 Thumbs.db
+**/Library/
 
 # Internal Project Specifications & Checklists
 checklist.md

@@ -27,7 +27,7 @@ export function AppNavbar() {
   const navigate = useNavigate()
 
   const toggleLanguage = () => {
-    const nextLang = i18n.language.startsWith('es') ? 'en' : 'es'
+    const nextLang = i18n.language.startsWith('ru') ? 'en' : 'ru'
     i18n.changeLanguage(nextLang)
     localStorage.setItem('recruitov_language', nextLang)
   }
@@ -160,9 +160,9 @@ export function AppNavbar() {
                 className="btn btn-sm btn-outline-secondary rounded-pill px-2 d-flex align-items-center justify-content-center fw-bold"
                 style={{ height: '36px', minWidth: '44px', fontSize: '12px' }}
                 onClick={toggleLanguage}
-                title={i18n.language.startsWith('es') ? 'Switch to English' : 'Cambiar a Español'}
+                title={i18n.language.startsWith('ru') ? 'Switch to English' : 'Переключить на Русский'}
               >
-                {i18n.language.startsWith('es') ? '🇪🇸 ES' : '🇬🇧 EN'}
+                {i18n.language.startsWith('ru') ? '🇷🇺 RU' : '🇬🇧 EN'}
               </button>
 
               {/* Theme Switcher Button */}

@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { Container, Card, Form, Button, Alert } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 
 export function SettingsPage() {
+  const { t, i18n } = useTranslation()
   const { profile, theme, updatePreferences, toggleTheme } = useAuth()
-  const [selectedLanguage, setSelectedLanguage] = useState(profile?.preferredLanguage || 'en')
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    profile?.preferredLanguage || localStorage.getItem('recruitov_language') || i18n.language || 'en'
+  )
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState(null)
@@ -15,6 +19,8 @@ export function SettingsPage() {
     setSaved(false)
     setError(null)
     try {
+      i18n.changeLanguage(selectedLanguage)
+      localStorage.setItem('recruitov_language', selectedLanguage)
       await updatePreferences({
         preferredLanguage: selectedLanguage,
         preferredTheme: theme
@@ -89,12 +95,10 @@ export function SettingsPage() {
               className="form-control-pro"
             >
               <option value="en">English (US)</option>
-              <option value="es">Español (Spanish)</option>
-              <option value="de">Deutsch (German)</option>
-              <option value="fr">Français (French)</option>
+              <option value="ru">Русский (Russian)</option>
             </Form.Select>
             <Form.Text className="text-muted small">
-              Languages will be tied to dynamic localization in Phase 9.
+              Select your preferred language for navigation, dashboard, and administration.
             </Form.Text>
           </Form.Group>
 
