@@ -1138,7 +1138,7 @@ export function ProfilePage() {
                 isDisabled={projectSaving}
               />
               <Form.Text className="text-muted small">
-                Tags are created in the database on first use (Spec §4.2).
+                Type a technology keyword and press Enter to add.
               </Form.Text>
             </Form.Group>
 

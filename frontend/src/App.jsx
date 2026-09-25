@@ -11,6 +11,8 @@ import { PositionsPage } from './pages/PositionsPage'
 import { SettingsPage } from './pages/SettingsPage'
 import { AttributesPage } from './pages/AttributesPage'
 import { ProfilePage } from './pages/ProfilePage'
+import { SearchResultsPage } from './pages/SearchResultsPage'
+import { AdminUsersPage } from './pages/AdminUsersPage'
 
 function ProfilePlaceholder() {
   return (
@@ -34,16 +36,6 @@ function AttributesPlaceholder() {
   )
 }
 
-function AdminUsersPlaceholder() {
-  return (
-    <div className="container py-5 text-center">
-      <h3 className="fw-bold mb-3">User Management</h3>
-      <p className="text-muted">
-        Admin user list, role promotion/demotion, and account blocking is scheduled for Phase 9.
-      </p>
-    </div>
-  )
-}
 
 function App() {
   return (
@@ -56,6 +48,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/positions" element={<PositionsPage />} />
+              <Route path="/search" element={<SearchResultsPage />} />
               
               {/* Authenticated routes */}
               <Route
@@ -98,7 +91,7 @@ function App() {
                 path="/admin/users"
                 element={
                   <ProtectedRoute allowedRoles={['Administrator']}>
-                    <AdminUsersPlaceholder />
+                    <AdminUsersPage />
                   </ProtectedRoute>
                 }
               />
@@ -108,14 +101,20 @@ function App() {
             </Routes>
           </main>
 
-          <footer className="py-4 border-top text-center text-muted small glass-panel mt-auto">
-            <div className="container">
-              <p className="mb-1">
-                <strong>reCruitoV</strong> &mdash; Web-Based CV &amp; Candidate Management System
-              </p>
-              <p className="mb-0 text-dimmed">
-                ASP.NET Core Web API (.NET 10) &middot; Supabase PostgreSQL &middot; React 19 + Bootstrap
-              </p>
+          <footer className="py-4 border-top text-muted small glass-panel mt-auto">
+            <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+              <div className="d-flex align-items-center gap-2">
+                <span className="fw-bold fs-5 tracking-tight text-body">
+                  re<span className="text-primary">C</span>ruito<span className="text-primary">V</span>
+                </span>
+                <span className="text-muted ms-2">&copy; {new Date().getFullYear()} reCruitoV Platform. All rights reserved.</span>
+              </div>
+              <div className="d-flex align-items-center gap-3 text-muted">
+                <span className="text-success d-inline-flex align-items-center gap-1">
+                  <span className="rounded-circle bg-success d-inline-block" style={{ width: '8px', height: '8px' }}></span>
+                  All Systems Operational
+                </span>
+              </div>
             </div>
           </footer>
         </div>

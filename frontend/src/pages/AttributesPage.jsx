@@ -265,8 +265,8 @@ export function AttributesPage() {
         <div>
           <div className="d-flex align-items-center gap-2 mb-1">
             <h3 className="fw-bold mb-0">Attribute Library</h3>
-            <Badge bg="primary" pill className="px-2 py-1 small">
-              EAV Engine &middot; Spec §4.3
+            <Badge bg="primary-subtle" className="text-primary border border-primary-subtle px-2 py-1 small">
+              Profile Schema
             </Badge>
           </div>
           <p className="text-muted small mb-0">

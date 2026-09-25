@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { Container, Table, Badge, Form, Alert, Modal, Button, Spinner, Row, Col } from 'react-bootstrap'
 import CreatableSelect from 'react-select/creatable'
 import Select from 'react-select'
+import { useSearchParams } from 'react-router-dom'
 import { api } from '../services/api'
 import { useAuth } from '../context/AuthContext'
 import { ApplicantsModal } from '../components/ApplicantsModal'
@@ -9,6 +10,8 @@ import { ApplicantsModal } from '../components/ApplicantsModal'
 export function PositionsPage() {
   const { user, isAuthenticated, isCandidate, isRecruiter, isAdmin } = useAuth()
   const canManagePositions = isRecruiter || isAdmin
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tagFromUrl = searchParams.get('tag') || ''
 
   // Positions list states
   const [positions, setPositions] = useState([])
@@ -22,7 +25,7 @@ export function PositionsPage() {
   // Filters
   const [search, setSearch] = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState('')
-  const [selectedTag, setSelectedTag] = useState('')
+  const [selectedTag, setSelectedTag] = useState(tagFromUrl)
 
   // Selection states for Toolbar (NO buttons in table rows!)
   const [selectedIds, setSelectedIds] = useState([])
@@ -70,6 +73,14 @@ export function PositionsPage() {
     }, 350)
     return () => clearTimeout(handler)
   }, [search])
+
+  // Sync URL tag param
+  useEffect(() => {
+    if (tagFromUrl) {
+      setSelectedTag(tagFromUrl)
+      setPage(1)
+    }
+  }, [tagFromUrl])
 
   // Fetch attributes for form picker
   useEffect(() => {
@@ -335,7 +346,7 @@ export function PositionsPage() {
             {selectedTag && (
               <Badge bg="primary" className="p-2 d-flex align-items-center gap-2">
                 <span>Filter: #{selectedTag}</span>
-                <i className="bi bi-x-circle" style={{ cursor: 'pointer' }} onClick={() => setSelectedTag('')} />
+                <i className="bi bi-x-circle" style={{ cursor: 'pointer' }} onClick={() => { setSelectedTag(''); setSearchParams({}); }} />
               </Badge>
             )}
             <small className="text-muted">

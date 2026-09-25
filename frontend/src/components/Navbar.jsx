@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Navbar, Nav, Container, Dropdown, Badge } from 'react-bootstrap'
+import { Navbar, Nav, Container, Dropdown, Badge, Form } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 import { AuthModal } from './AuthModal'
 
 export function AppNavbar() {
+  const { t, i18n } = useTranslation()
   const {
     user,
     profile,
@@ -21,7 +23,21 @@ export function AppNavbar() {
 
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authMode, setAuthMode] = useState('login')
+  const [searchQuery, setSearchQuery] = useState('')
   const navigate = useNavigate()
+
+  const toggleLanguage = () => {
+    const nextLang = i18n.language.startsWith('es') ? 'en' : 'es'
+    i18n.changeLanguage(nextLang)
+    localStorage.setItem('recruitov_language', nextLang)
+  }
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
+    }
+  }
 
   const handleOpenAuth = (mode) => {
     setAuthMode(mode)
@@ -76,17 +92,17 @@ export function AppNavbar() {
             <Nav className="me-auto ms-lg-4 gap-1">
               {/* Public / Common links */}
               <Link to="/positions" className="nav-link px-3 fw-medium">
-                <i className="bi bi-compass me-1"></i> Positions
+                <i className="bi bi-compass me-1"></i> {t('nav.positions')}
               </Link>
 
               {/* Candidate navigation */}
               {isAuthenticated && isCandidate && (
                 <>
                   <Link to={user?.id ? `/profile/${user.id}` : '/profile'} className="nav-link px-3 fw-medium">
-                    <i className="bi bi-person-badge me-1"></i> My Profile
+                    <i className="bi bi-person-badge me-1"></i> {t('nav.myProfile')}
                   </Link>
                   <Link to="/my-cvs" className="nav-link px-3 fw-medium">
-                    <i className="bi bi-file-earmark-person me-1"></i> My CVs
+                    <i className="bi bi-file-earmark-person me-1"></i> {t('nav.myCvs')}
                   </Link>
                 </>
               )}
@@ -95,10 +111,10 @@ export function AppNavbar() {
               {isAuthenticated && isRecruiter && (
                 <>
                   <Link to="/candidates" className="nav-link px-3 fw-medium">
-                    <i className="bi bi-search me-1"></i> Candidate Search
+                    <i className="bi bi-search me-1"></i> {t('nav.candidates')}
                   </Link>
                   <Link to="/attributes" className="nav-link px-3 fw-medium">
-                    <i className="bi bi-tags me-1"></i> Attribute Library
+                    <i className="bi bi-tags me-1"></i> {t('nav.attributes')}
                   </Link>
                 </>
               )}
@@ -107,19 +123,48 @@ export function AppNavbar() {
               {isAuthenticated && isAdmin && (
                 <>
                   <Link to="/admin/users" className="nav-link px-3 fw-medium text-danger-emphasis">
-                    <i className="bi bi-people-fill me-1"></i> User Management
+                    <i className="bi bi-people-fill me-1"></i> {t('nav.userManagement')}
                   </Link>
                   {!isRecruiter && (
                     <Link to="/attributes" className="nav-link px-3 fw-medium">
-                      <i className="bi bi-tags me-1"></i> Attribute Library
+                      <i className="bi bi-tags me-1"></i> {t('nav.attributes')}
                     </Link>
                   )}
                 </>
               )}
             </Nav>
 
-            {/* Right Controls: Theme Toggle, Auth Buttons, User Profile */}
+            {/* Right Controls: Global Search, Language Toggle, Theme Toggle, Auth Buttons, User Profile */}
             <div className="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+              {/* Global Full-Text Search Bar */}
+              <Form onSubmit={handleSearchSubmit} className="d-flex align-items-center me-1 position-relative" style={{ maxWidth: '220px' }}>
+                <div className="input-group input-group-sm">
+                  <span className="input-group-text bg-body border-end-0 text-muted px-2">
+                    <i className="bi bi-search"></i>
+                  </span>
+                  <Form.Control
+                    type="search"
+                    placeholder={t('nav.searchPlaceholder')}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="border-start-0 rounded-end form-control-pro"
+                    style={{ fontSize: '13px' }}
+                    aria-label="Global search"
+                  />
+                </div>
+              </Form>
+
+              {/* Language Switcher Toggle */}
+              <button
+                type="button"
+                className="btn btn-sm btn-outline-secondary rounded-pill px-2 d-flex align-items-center justify-content-center fw-bold"
+                style={{ height: '36px', minWidth: '44px', fontSize: '12px' }}
+                onClick={toggleLanguage}
+                title={i18n.language.startsWith('es') ? 'Switch to English' : 'Cambiar a Español'}
+              >
+                {i18n.language.startsWith('es') ? '🇪🇸 ES' : '🇬🇧 EN'}
+              </button>
+
               {/* Theme Switcher Button */}
               <button
                 type="button"
@@ -179,17 +224,17 @@ export function AppNavbar() {
                       </div>
 
                       <Dropdown.Item as={Link} to={user?.id ? `/profile/${user.id}` : '/profile'} className="rounded-2 py-2">
-                        <i className="bi bi-person me-2"></i> View Profile
+                        <i className="bi bi-person me-2"></i> {t('nav.myProfile')}
                       </Dropdown.Item>
 
                       <Dropdown.Item as={Link} to="/settings" className="rounded-2 py-2">
-                        <i className="bi bi-gear me-2"></i> Preferences
+                        <i className="bi bi-gear me-2"></i> {t('nav.preferences')}
                       </Dropdown.Item>
 
                       <Dropdown.Divider />
 
                       <Dropdown.Item onClick={handleSignOut} className="rounded-2 py-2 text-danger">
-                        <i className="bi bi-box-arrow-right me-2"></i> Sign Out
+                        <i className="bi bi-box-arrow-right me-2"></i> {t('nav.signOut')}
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
@@ -201,14 +246,14 @@ export function AppNavbar() {
                     className="btn btn-sm btn-outline-primary px-3 fw-medium"
                     onClick={() => handleOpenAuth('login')}
                   >
-                    Sign In
+                    {t('nav.signIn')}
                   </button>
                   <button
                     type="button"
                     className="btn btn-sm btn-primary-gradient px-3 fw-medium"
                     onClick={() => handleOpenAuth('register')}
                   >
-                    Get Started
+                    {t('nav.getStarted')}
                   </button>
                 </div>
               )}

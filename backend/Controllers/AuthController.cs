@@ -42,7 +42,63 @@ public class AuthController : ControllerBase
 
         if (user == null)
         {
-            return NotFound(new { message = "User not found in system." });
+            var email = User.FindFirst(ClaimTypes.Email)?.Value
+                        ?? User.FindFirst("email")?.Value
+                        ?? $"{userId}@oauth.recruitov.com";
+
+            user = new AppUser
+            {
+                Id = userId,
+                Email = email,
+                IsBlocked = false,
+                PreferredLanguage = "en",
+                PreferredTheme = "light",
+                Version = 1,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _db.Users.Add(user);
+            _db.UserRoles.Add(new AppUserRole
+            {
+                UserId = userId,
+                Role = AppUserRole.Candidate
+            });
+
+            // Extract Name from claims if provided by OAuth provider
+            var nameClaim = User.FindFirst("name")?.Value ?? User.FindFirst(ClaimTypes.Name)?.Value;
+            if (!string.IsNullOrWhiteSpace(nameClaim))
+            {
+                var parts = nameClaim.Trim().Split(' ', 2);
+                var firstName = parts[0];
+                var lastName = parts.Length > 1 ? parts[1] : string.Empty;
+
+                _db.UserAttributeValues.Add(new UserAttributeValue
+                {
+                    UserId = userId,
+                    AttributeDefinitionId = 1, // First Name
+                    Value = firstName,
+                    UpdatedAt = DateTime.UtcNow
+                });
+
+                if (!string.IsNullOrWhiteSpace(lastName))
+                {
+                    _db.UserAttributeValues.Add(new UserAttributeValue
+                    {
+                        UserId = userId,
+                        AttributeDefinitionId = 2, // Last Name
+                        Value = lastName,
+                        UpdatedAt = DateTime.UtcNow
+                    });
+                }
+            }
+
+            await _db.SaveChangesAsync();
+
+            user = await _db.Users
+                .Include(u => u.Roles)
+                .Include(u => u.AttributeValues)
+                    .ThenInclude(v => v.AttributeDefinition)
+                .FirstAsync(u => u.Id == userId);
         }
 
         // Return user data along with their built-in "Me" attributes
