@@ -1,7 +1,7 @@
 namespace backend.Models.Enums;
 
 /// <summary>
-/// State tracking for Virtual CVs (Spec §4.5).
+/// State tracking for Virtual CVs.
 /// Draft: Work in progress, editable by Candidate.
 /// Published: All mandatory fields completed, visible to Recruiters.
 /// </summary>

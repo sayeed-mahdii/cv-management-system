@@ -10,7 +10,7 @@ namespace backend.Controllers;
 
 /// <summary>
 /// Handles administrative user management, account blocking/unblocking, role management,
-/// and cascade user deletion (Spec §9.1 & §9.2).
+/// and cascade user deletion.
 /// Strictly restricted to users with the Administrator role.
 /// </summary>
 [ApiController]
@@ -33,7 +33,7 @@ public class AdminController : ControllerBase
         ?? string.Empty;
 
     /// <summary>
-    /// Returns the complete roster of registered platform users for the Admin table (Spec §9.1).
+    /// Returns the complete roster of registered platform users for the Admin table.
     /// Single round-trip query without N+1 iterations.
     /// </summary>
     [HttpGet("users")]
@@ -84,7 +84,7 @@ public class AdminController : ControllerBase
     }
 
     /// <summary>
-    /// Bulk or single user blocking/unblocking (Spec §9.2).
+    /// Bulk or single user blocking/unblocking.
     /// Immediately disables candidate/recruiter write operations across the system.
     /// </summary>
     [HttpPut("users/block")]
@@ -125,7 +125,7 @@ public class AdminController : ControllerBase
     }
 
     /// <summary>
-    /// Updates roles for a specified user (Spec §9.1).
+    /// Updates roles for a specified user.
     /// Admins may assign or remove Candidate, Recruiter, or Administrator roles.
     /// Explicitly supports admins removing their own Administrator role.
     /// </summary>
@@ -205,7 +205,7 @@ public class AdminController : ControllerBase
     }
 
     /// <summary>
-    /// Bulk deletes users and cascades deletion through EF Core (Spec §9.1 & §6.2).
+    /// Bulk deletes users and cascades deletion through EF Core.
     /// </summary>
     [HttpPost("users/batch-delete")]
     public async Task<ActionResult> BatchDeleteUsers([FromBody] BatchDeleteUsersRequest request)

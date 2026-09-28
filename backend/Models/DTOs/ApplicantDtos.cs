@@ -30,7 +30,7 @@ public class ApplicantAttributeMatchDto
 }
 
 /// <summary>
-/// Full Virtual CV Inspector view for recruiters (Killer Feature #3).
+/// Full Virtual CV Inspector view for recruiters.
 /// Includes candidate's identity, dynamic attributes check, and tailored projects
 /// filtered by position tags and capped by MaxProjects.
 /// </summary>

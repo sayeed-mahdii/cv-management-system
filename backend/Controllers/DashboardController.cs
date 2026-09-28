@@ -22,7 +22,7 @@ public class DashboardController : ControllerBase
 
     /// <summary>
     /// Returns aggregated main page statistics, latest positions, top popular positions,
-    /// and technology tag cloud (Spec §4.1).
+    /// and technology tag cloud.
     /// Single batch query without loop scans. Open to unauthenticated public visitors.
     /// </summary>
     [HttpGet]

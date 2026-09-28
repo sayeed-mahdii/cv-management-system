@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace backend.Filters;
 
 /// <summary>
-/// Rejects any authenticated request if the user is marked IsBlocked in the database (Spec §3.4).
+/// Rejects any authenticated request if the user is marked IsBlocked in the database.
 /// </summary>
 public class BlockedUserFilter : IAsyncActionFilter
 {

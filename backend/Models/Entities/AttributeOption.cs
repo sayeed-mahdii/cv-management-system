@@ -1,7 +1,7 @@
 namespace backend.Models.Entities;
 
 /// <summary>
-/// Predefined choices for attributes with DataType = OneOfMany (Spec §4.3).
+/// Predefined choices for attributes with DataType = OneOfMany.
 /// Example: "Essentials", "Pro", "Expert".
 /// </summary>
 public class AttributeOption

@@ -254,7 +254,7 @@ export function HomePage() {
           </Alert>
         )}
 
-        {/* 1. Platform Statistics Counters Grid (Spec §4.1 / UC-1.1) */}
+        {/* 1. Platform Statistics Counters Grid */}
         <div className="mb-5">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h5 className="fw-bold mb-0 d-flex align-items-center gap-2">
@@ -362,7 +362,7 @@ export function HomePage() {
           </Row>
         </div>
 
-        {/* 2. Interactive Technology Tag Cloud (Spec §4.1 / UC-1.1) */}
+        {/* 2. Interactive Technology Tag Cloud */}
         <Card className="card-pro border-0 shadow-sm mb-5 overflow-hidden">
           <div className="p-3 bg-light border-bottom d-flex justify-content-between align-items-center">
             <div className="d-flex align-items-center gap-2">

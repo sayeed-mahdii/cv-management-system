@@ -1,7 +1,7 @@
 namespace backend.Models.DTOs;
 
 /// <summary>
-/// Summary DTO for displaying users in the Admin roster table (Spec §9.1).
+/// Summary DTO for displaying users in the Admin roster table.
 /// </summary>
 public class AdminUserListItemDto
 {

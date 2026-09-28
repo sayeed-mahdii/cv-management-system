@@ -1,7 +1,7 @@
 namespace backend.Models.Entities;
 
 /// <summary>
-/// Customizable Position CV Template (Killer Feature #2, Spec §4.4).
+/// Customizable Position CV Template.
 /// Managed by Recruiters. Defines required attributes, project filter tags, and access rules.
 /// </summary>
 public class Position

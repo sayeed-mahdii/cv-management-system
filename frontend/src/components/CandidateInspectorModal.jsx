@@ -197,7 +197,7 @@ export function CandidateInspectorModal({ show, onHide, positionId, candidateId 
               </Card>
             )}
 
-            {/* Filtered Portfolio Projects (Killer Feature #3) */}
+            {/* Filtered Portfolio Projects */}
             <Card className="card-pro p-3">
               <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-3 gap-2">
                 <div>

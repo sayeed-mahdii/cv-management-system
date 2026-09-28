@@ -19,7 +19,7 @@ public class SearchController : ControllerBase
     }
 
     /// <summary>
-    /// Global Full-Text Search across positions, project descriptions, and candidate names (Spec §4.7).
+    /// Global Full-Text Search across positions, project descriptions, and candidate names.
     /// Utilizes PostgreSQL full-text search (tsvector + GIN indexes) with substring fallback.
     /// Open to guests and authenticated users.
     /// </summary>

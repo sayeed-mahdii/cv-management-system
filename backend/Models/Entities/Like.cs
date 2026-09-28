@@ -1,7 +1,7 @@
 namespace backend.Models.Entities;
 
 /// <summary>
-/// CV likes given by recruiters (Spec §4.6).
+/// CV likes given by recruiters.
 /// Composite PK: (CvId, RecruiterUserId) enforces at most one like per recruiter per CV.
 /// </summary>
 public class Like

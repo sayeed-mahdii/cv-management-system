@@ -175,7 +175,7 @@ export function ProfilePage() {
     setIsDirty(true)
   }
 
-  // Handle signed Cloudinary photo upload (Spec §6.3)
+  // Handle signed Cloudinary photo upload
   const handlePhotoUpload = async (e) => {
     const file = e.target.files?.[0]
     if (!file) return

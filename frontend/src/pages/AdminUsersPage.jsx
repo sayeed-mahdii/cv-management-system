@@ -80,7 +80,7 @@ export function AdminUsersPage() {
     )
   }
 
-  // Batch Block / Unblock (Spec §9.2)
+  // Batch Block / Unblock
   const handleToggleBlock = async (shouldBlock) => {
     if (selectedIds.length === 0) return
     setActionLoading(true)
@@ -117,7 +117,7 @@ export function AdminUsersPage() {
     setRolesModalOpen(true)
   }
 
-  // Save Role Changes (Spec §9.1: Admins may remove their own role)
+  // Save Role Changes (Admins may remove their own role)
   const handleSaveRoles = async () => {
     if (!targetUserForRoles) return
     setActionLoading(true)
@@ -144,7 +144,7 @@ export function AdminUsersPage() {
     }
   }
 
-  // Batch Delete Users (Spec §9.1 & §6.2)
+  // Batch Delete Users
   const handleDeleteConfirm = async () => {
     if (selectedIds.length === 0) return
     setActionLoading(true)

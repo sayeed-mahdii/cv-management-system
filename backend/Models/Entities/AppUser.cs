@@ -18,7 +18,7 @@ public class AppUser
     public string? PreferredTheme { get; set; } = "light";
 
     /// <summary>
-    /// Concurrency token for Optimistic Locking (Spec §6.1).
+    /// Concurrency token for Optimistic Locking.
     /// Bumping this prevents concurrent profile modifications.
     /// </summary>
     public int Version { get; set; } = 1;

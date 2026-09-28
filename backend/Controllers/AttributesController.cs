@@ -119,7 +119,7 @@ public class AttributesController : ControllerBase
     }
 
     /// <summary>
-    /// Creates a new attribute definition in the Attribute Library (Spec §4.3).
+    /// Creates a new attribute definition in the Attribute Library.
     /// Enforces globally unique name. Restricted to Recruiters and Administrators.
     /// </summary>
     [HttpPost]
@@ -224,7 +224,7 @@ public class AttributesController : ControllerBase
             return BadRequest(new { message = "Built-in profile attributes (e.g. First Name, Photo) cannot be modified." });
         }
 
-        // Optimistic concurrency check (Spec §9)
+        // Optimistic concurrency check
         if (attribute.Version != dto.Version)
         {
             return Conflict(new

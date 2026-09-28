@@ -19,7 +19,7 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
-    /// Returns the currently authenticated user's profile, roles, and preferences (Spec §3.1, §4.2).
+    /// Returns the currently authenticated user's profile, roles, and preferences.
     /// </summary>
     [HttpGet("me")]
     [HttpGet("/api/me")]

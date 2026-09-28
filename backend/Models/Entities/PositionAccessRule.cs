@@ -3,7 +3,7 @@ using backend.Models.Enums;
 namespace backend.Models.Entities;
 
 /// <summary>
-/// Candidate access restriction rule for a Position (Spec §4.4).
+/// Candidate access restriction rule for a Position.
 /// Example: IELTS Score (Attribute) GreaterThan (Operator) "7.0" (TargetValue).
 /// </summary>
 public class PositionAccessRule

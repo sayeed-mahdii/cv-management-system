@@ -1,7 +1,7 @@
 namespace backend.Models.Entities;
 
 /// <summary>
-/// A candidate's portfolio project (Spec §4.2).
+/// A candidate's portfolio project.
 /// Includes Name, Date range, Markdown Description, and Tags.
 /// </summary>
 public class Project

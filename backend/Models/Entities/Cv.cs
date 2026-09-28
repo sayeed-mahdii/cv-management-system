@@ -3,7 +3,7 @@ using backend.Models.Enums;
 namespace backend.Models.Entities;
 
 /// <summary>
-/// Automatically Generated Virtual CV (Killer Feature #3, Spec §4.5).
+/// Automatically Generated Virtual CV.
 /// Holds metadata, state, and version. Content is dynamically assembled on read.
 /// Strictly at most one CV per candidate per position.
 /// </summary>

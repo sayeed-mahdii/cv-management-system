@@ -141,7 +141,7 @@ public class PositionsController : ControllerBase
     }
 
     /// <summary>
-    /// Creates a new Position template (Spec §4.4).
+    /// Creates a new Position template.
     /// Restricted to Recruiters and Administrators.
     /// </summary>
     [HttpPost]
@@ -478,7 +478,7 @@ public class PositionsController : ControllerBase
     }
 
     /// <summary>
-    /// Candidate withdraws their application from a position (Spec §4.2).
+    /// Candidate withdraws their application from a position.
     /// </summary>
     [HttpDelete("{id:int}/apply")]
     [Authorize(Roles = "Candidate,Administrator")]
@@ -504,7 +504,7 @@ public class PositionsController : ControllerBase
     }
 
     /// <summary>
-    /// Returns the list of applicants for a specific position (Spec §4.2).
+    /// Returns the list of applicants for a specific position.
     /// Restricted to Recruiters and Administrators.
     /// Direct projection to avoid N+1 queries.
     /// </summary>
@@ -571,7 +571,7 @@ public class PositionsController : ControllerBase
     }
 
     /// <summary>
-    /// Inspects a candidate's virtual profile for a position (Killer Feature #3).
+    /// Inspects a candidate's virtual profile for a position.
     /// Dynamically filters projects by the position's technology tags and limits to MaxProjects.
     /// Restricted to Recruiters and Administrators.
     /// </summary>
@@ -674,7 +674,7 @@ public class PositionsController : ControllerBase
             });
         }
 
-        // 3. Assemble and Filter Portfolio Projects (Killer Feature #3)
+        // 3. Assemble and Filter Portfolio Projects
         // Position technology tags filter candidate projects; capped at position.MaxProjects
         var allProjects = await _db.Projects
             .AsNoTracking()

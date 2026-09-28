@@ -34,7 +34,7 @@ public class ProfileController : ControllerBase
         ?? string.Empty;
 
     /// <summary>
-    /// Helper to verify if the caller is the resource owner or an administrator (Spec §3.1).
+    /// Helper to verify if the caller is the resource owner or an administrator.
     /// </summary>
     private bool IsOwnerOrAdmin(string userId) =>
         GetCurrentUserId() == userId || User.IsInRole("Administrator");
@@ -193,7 +193,7 @@ public class ProfileController : ControllerBase
             return NotFound(new { message = $"User with ID '{userId}' not found." });
         }
 
-        // Optimistic Locking Concurrency Check (Spec §9)
+        // Optimistic Locking Concurrency Check
         if (user.Version != dto.Version)
         {
             return Conflict(new
@@ -286,7 +286,7 @@ public class ProfileController : ControllerBase
     }
 
     /// <summary>
-    /// Adds a project to candidate's portfolio. Tags are created in the database on first use (Spec §4.2).
+    /// Adds a project to candidate's portfolio. Tags are created in the database on first use.
     /// </summary>
     [HttpPost("{userId}/projects")]
     public async Task<ActionResult<ProjectDto>> AddProject(string userId, [FromBody] CreateProjectDto dto)
@@ -479,7 +479,7 @@ public class ProfileController : ControllerBase
 
     /// <summary>
     /// Generates Cloudinary signed upload parameters so the browser uploads directly to the CDN.
-    /// The API secret never leaves the server (Spec §6.3).
+    /// The API secret never leaves the server.
     /// </summary>
     [HttpGet("upload-signature")]
     public ActionResult<CloudinarySignatureDto> GetUploadSignature()
@@ -489,7 +489,7 @@ public class ProfileController : ControllerBase
     }
 
     /// <summary>
-    /// Candidate withdraws their application (Spec §4.2).
+    /// Candidate withdraws their application.
     /// </summary>
     [HttpDelete("applications/{cvId:int}")]
     public async Task<IActionResult> WithdrawApplication(int cvId)

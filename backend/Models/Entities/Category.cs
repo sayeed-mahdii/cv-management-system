@@ -1,7 +1,7 @@
 namespace backend.Models.Entities;
 
 /// <summary>
-/// Categories for grouping attributes (Spec §4.3).
+/// Categories for grouping attributes.
 /// Predefined list (Certification, Domain Knowledge, Soft Skills).
 /// App owners modify via DB; no UI required.
 /// </summary>

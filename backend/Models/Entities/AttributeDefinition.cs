@@ -3,7 +3,7 @@ using backend.Models.Enums;
 namespace backend.Models.Entities;
 
 /// <summary>
-/// Reusable Attribute Library Definition (Killer Feature #1, Spec §4.3).
+/// Reusable Attribute Library Definition.
 /// Defines globally available attributes. Names are globally unique.
 /// Built-in attributes (First Name, Photo, etc.) have IsBuiltIn = true and cannot be deleted.
 /// </summary>

@@ -167,7 +167,7 @@ code, pre {
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
-/* Table Toolbar Compliance (Spec §6 & Penalties: No buttons inside table rows!) */
+/* Table Toolbar: Batch actions toolbar (no action buttons inside table rows) */
 .table-toolbar {
   display: flex;
   align-items: center;

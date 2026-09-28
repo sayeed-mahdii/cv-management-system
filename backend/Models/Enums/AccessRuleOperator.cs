@@ -1,7 +1,7 @@
 namespace backend.Models.Enums;
 
 /// <summary>
-/// Comparison operators for Position Access Rules (Spec §4.4 and Database Design §5).
+/// Comparison operators for Position Access Rules.
 /// Operators vary based on the Attribute DataType.
 /// </summary>
 public enum AccessRuleOperator

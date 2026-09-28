@@ -1,7 +1,7 @@
 namespace backend.Models.Entities;
 
 /// <summary>
-/// Chronological discussion posts attached to a Position (Spec §4.6).
+/// Chronological discussion posts attached to a Position.
 /// Author name links to profile. Supports Markdown.
 /// Updates polled every 2-5 seconds.
 /// </summary>

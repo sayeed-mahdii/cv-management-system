@@ -1,7 +1,7 @@
 namespace backend.Models.Enums;
 
 /// <summary>
-/// Supported data types for Attribute Definitions (Spec §4.3).
+/// Supported data types for Attribute Definitions.
 /// </summary>
 public enum DataType
 {

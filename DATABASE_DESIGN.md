@@ -30,7 +30,7 @@ user_123 | attr_003    | 12        <- id of the option "Expert"
 
 * Adding 100 new attributes tomorrow needs **zero migrations**.
 * Built-in attributes (First Name, Last Name, Location, Personal Photo) use this same table with `IsBuiltIn = true`. The CV engine treats them like every other attribute, with no special if/else. **Do not** also store names or photos as columns on the user table, because that creates two sources of truth.
-* Renaming an attribute keeps all values, because they point to the attribute's ID, not its name (spec §6.4).
+* Renaming an attribute keeps all values, because they point to the attribute's ID, not its name.
 
 **Canonical value formats.** `Value` is a text column, so every data type must be saved in one fixed format. Otherwise comparisons break (as text, `"10" < "9"`, and `7,5` differs from `7.5` by culture).
 
@@ -56,11 +56,11 @@ The `Cvs` table has **no columns for CV text or skills**:
 Cvs: [Id, UserId, PositionId, State (Draft/Published), Version, CreatedAt, UpdatedAt]
 ```
 
-**Why?** The spec requires the CV to be **virtual**: it is assembled on every read. When someone opens a CV for "Junior Data Engineer", the API runs a fixed number of queries (never one per attribute):
+**Why?** The architecture requires the CV to be **virtual**: it is assembled on every read. When someone opens a CV for "Junior Data Engineer", the API runs a fixed number of queries (never one per attribute):
 1. Load the **Position** template with its attribute list and project tags.
 2. Load the candidate's rows from `UserAttributeValues` for those attributes **plus the built-in Me attributes**, in one query.
 3. Load the candidate's **Projects** that share a tag with the position, most recent first, limited to `Position.MaxProjects`.
-4. Merge everything into a response DTO. The DTO is only an API response and is **never stored** (the spec forbids storing CVs as JSON).
+4. Merge everything into a response DTO. The DTO is only an API response and is **never stored** (CVs are never stored as static JSON).
 
 Consequences:
 * If a candidate edits their profile, every CV shows the change immediately.
@@ -286,7 +286,7 @@ In EF Core, the prefix index is `HasIndex(x => x.NormalizedName).HasOperators("t
 
 ---
 
-## 4. Cascade Deletes (Spec §6.2)
+## 4. Cascade Deletes
 
 Relationships use foreign keys with **Cascade Delete** (`OnDelete(DeleteBehavior.Cascade)`) unless noted. PostgreSQL has no "multiple cascade paths" restriction, so overlapping paths are fine.
 
@@ -301,7 +301,7 @@ Relationships use foreign keys with **Cascade Delete** (`OnDelete(DeleteBehavior
 | **Category** | **nothing: use `Restrict`** | A cascade here would delete every attribute in the category. Categories are seeded and have no UI. |
 | **AttributeOption** | nothing | Values store the option ID as text, so there is no foreign key. Before deleting an option, check in one query whether any `UserAttributeValue` uses it, and refuse if so. |
 
-**Why?** Writing C# loops like `foreach (var cv in position.Cvs) { db.Cvs.Remove(cv); }` is slow, breaks on network timeouts (partial deletion), and violates the spec's Strict DON'Ts.
+**Why?** Writing C# loops like `foreach (var cv in position.Cvs) { db.Cvs.Remove(cv); }` is slow, breaks on network timeouts (partial deletion), and violates database performance constraints.
 
 ---
 
@@ -326,7 +326,7 @@ Available operators depend on the data type:
 
 ---
 
-## 6. Full-Text Search (Spec §4.7)
+## 6. Full-Text Search
 
 Add generated `tsvector` columns with GIN indexes (`HasGeneratedTsVectorColumn(...)` plus `HasIndex(...).HasMethod("GIN")` in Npgsql EF Core):
 

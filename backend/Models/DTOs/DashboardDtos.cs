@@ -1,7 +1,7 @@
 namespace backend.Models.DTOs;
 
 /// <summary>
-/// Aggregated platform metrics displayed on the main page (Spec §4.1).
+/// Aggregated platform metrics displayed on the main page.
 /// </summary>
 public class PlatformStatsDto
 {

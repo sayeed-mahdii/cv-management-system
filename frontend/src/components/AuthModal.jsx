@@ -117,7 +117,7 @@ export function AuthModal({ show, onHide, initialMode = 'login' }) {
           </Alert>
         )}
 
-        {/* Social Logins (Spec §3.1, §4.1) */}
+        {/* Social Logins */}
         <div className="d-grid gap-2 mb-3">
           <button
             type="button"

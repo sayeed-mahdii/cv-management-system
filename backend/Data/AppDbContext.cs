@@ -85,12 +85,12 @@ public class AppDbContext : DbContext
         // 3. UNIQUE CONSTRAINTS & PERFORMANCE INDEXES
         // ==========================================
 
-        // Strictly at most one CV per candidate per position (Spec §4.2)
+        // Strictly at most one CV per candidate per position
         modelBuilder.Entity<Cv>()
             .HasIndex(x => new { x.UserId, x.PositionId })
             .IsUnique();
 
-        // Attribute definitions must have globally unique names (Spec §4.3)
+        // Attribute definitions must have globally unique names
         modelBuilder.Entity<AttributeDefinition>()
             .HasIndex(x => x.NormalizedName)
             .IsUnique();
@@ -128,7 +128,7 @@ public class AppDbContext : DbContext
             .HasIndex(x => new { x.UserId, x.StartDate });
 
         // ==========================================
-        // 4. CASCADE DELETIONS & CONSTRAINTS (Spec §6.2)
+        // 4. CASCADE DELETIONS & CONSTRAINTS
         // ==========================================
 
         // AppUser cascades
@@ -258,7 +258,7 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         // ==========================================
-        // 5. SEED DATA (Spec §4.2, §4.3)
+        // 5. SEED DATA
         // ==========================================
 
         // Seed Categories

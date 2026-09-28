@@ -1,7 +1,7 @@
 namespace backend.Models.Entities;
 
 /// <summary>
-/// Technology and skill tags (Spec §4.2).
+/// Technology and skill tags.
 /// Created in the database on first use.
 /// </summary>
 public class Tag
