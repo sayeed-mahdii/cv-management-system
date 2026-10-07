@@ -53,6 +53,10 @@ builder.Services.AddScoped<IClaimsTransformation, SupabaseClaimsTransformation>(
 // Register Cloudinary Service for signed image uploads
 builder.Services.AddSingleton<CloudinaryService>();
 
+// Register HTTP Client & Cloud Storage Service for Power Automate / external storage integrations
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<CloudStorageService>();
+
 // Enable CORS for local Vite dev server
 builder.Services.AddCors(options =>
 {

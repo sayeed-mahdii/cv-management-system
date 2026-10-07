@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
 
 import { AuthProvider } from './context/AuthContext'
+import { SupportTicketProvider, useSupportTicket } from './context/SupportTicketContext'
 import { AppNavbar } from './components/Navbar'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { HomePage } from './pages/HomePage'
@@ -36,91 +37,110 @@ function AttributesPlaceholder() {
   )
 }
 
+function AppFooter() {
+  const { openTicketModal } = useSupportTicket()
+
+  return (
+    <footer className="py-4 border-top text-muted small glass-panel mt-auto">
+      <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        <div className="d-flex align-items-center gap-2">
+          <span className="fw-bold fs-5 tracking-tight text-body">
+            re<span className="text-primary">C</span>ruito<span className="text-primary">V</span>
+          </span>
+          <span className="text-muted ms-2">&copy; {new Date().getFullYear()} reCruitoV Platform. All rights reserved.</span>
+        </div>
+        <div className="d-flex align-items-center gap-3 text-muted">
+          <button
+            type="button"
+            className="btn btn-link btn-sm p-0 text-decoration-none text-muted d-inline-flex align-items-center gap-1 hover-underline"
+            onClick={() => openTicketModal()}
+            id="footer-create-support-ticket-btn"
+          >
+            <i className="bi bi-headset text-primary"></i> Create support ticket
+          </button>
+          <span className="text-muted">|</span>
+          <span className="text-success d-inline-flex align-items-center gap-1">
+            <span className="rounded-circle bg-success d-inline-block" style={{ width: '8px', height: '8px' }}></span>
+            All Systems Operational
+          </span>
+        </div>
+      </div>
+    </footer>
+  )
+}
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <div className="d-flex flex-column min-vh-100">
-          <AppNavbar />
+        <SupportTicketProvider>
+          <div className="d-flex flex-column min-vh-100">
+            <AppNavbar />
 
-          <main className="flex-grow-1">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/positions" element={<PositionsPage />} />
-              <Route path="/search" element={<SearchResultsPage />} />
-              
-              {/* Authenticated routes */}
-              <Route
-                path="/settings"
-                element={
-                  <ProtectedRoute>
-                    <SettingsPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <ProfilePage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile/:id"
-                element={
-                  <ProtectedRoute>
-                    <ProfilePage />
-                  </ProtectedRoute>
-                }
-              />
+            <main className="flex-grow-1">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/positions" element={<PositionsPage />} />
+                <Route path="/search" element={<SearchResultsPage />} />
+                
+                {/* Authenticated routes */}
+                <Route
+                  path="/settings"
+                  element={
+                    <ProtectedRoute>
+                      <SettingsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <ProfilePage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/profile/:id"
+                  element={
+                    <ProtectedRoute>
+                      <ProfilePage />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* Recruiter & Admin routes */}
-              <Route
-                path="/attributes"
-                element={
-                  <ProtectedRoute allowedRoles={['Recruiter', 'Administrator']}>
-                    <AttributesPage />
-                  </ProtectedRoute>
-                }
-              />
+                {/* Recruiter & Admin routes */}
+                <Route
+                  path="/attributes"
+                  element={
+                    <ProtectedRoute allowedRoles={['Recruiter', 'Administrator']}>
+                      <AttributesPage />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* Admin only routes */}
-              <Route
-                path="/admin/users"
-                element={
-                  <ProtectedRoute allowedRoles={['Administrator']}>
-                    <AdminUsersPage />
-                  </ProtectedRoute>
-                }
-              />
+                {/* Admin only routes */}
+                <Route
+                  path="/admin/users"
+                  element={
+                    <ProtectedRoute allowedRoles={['Administrator']}>
+                      <AdminUsersPage />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* Fallback */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </main>
+                {/* Fallback */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </main>
 
-          <footer className="py-4 border-top text-muted small glass-panel mt-auto">
-            <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-              <div className="d-flex align-items-center gap-2">
-                <span className="fw-bold fs-5 tracking-tight text-body">
-                  re<span className="text-primary">C</span>ruito<span className="text-primary">V</span>
-                </span>
-                <span className="text-muted ms-2">&copy; {new Date().getFullYear()} reCruitoV Platform. All rights reserved.</span>
-              </div>
-              <div className="d-flex align-items-center gap-3 text-muted">
-                <span className="text-success d-inline-flex align-items-center gap-1">
-                  <span className="rounded-circle bg-success d-inline-block" style={{ width: '8px', height: '8px' }}></span>
-                  All Systems Operational
-                </span>
-              </div>
-            </div>
-          </footer>
-        </div>
+            <AppFooter />
+          </div>
+        </SupportTicketProvider>
       </BrowserRouter>
     </AuthProvider>
   )
 }
 
 export default App
+

@@ -3,10 +3,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Navbar, Nav, Container, Dropdown, Badge, Form } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
+import { useSupportTicket } from '../context/SupportTicketContext'
 import { AuthModal } from './AuthModal'
 
 export function AppNavbar() {
   const { t, i18n } = useTranslation()
+  const { openTicketModal } = useSupportTicket()
   const {
     user,
     profile,
@@ -178,6 +180,19 @@ export function AppNavbar() {
                 ) : (
                   <i className="bi bi-moon-stars-fill text-primary"></i>
                 )}
+              </button>
+
+              {/* Help & Support Ticket Button */}
+              <button
+                type="button"
+                id="navbar-help-ticket-btn"
+                className="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center"
+                style={{ width: '36px', height: '36px' }}
+                onClick={() => openTicketModal()}
+                title="Help / Create Support Ticket"
+                aria-label="Help and Support Ticket"
+              >
+                <i className="bi bi-question-circle"></i>
               </button>
 
               {isAuthenticated ? (
