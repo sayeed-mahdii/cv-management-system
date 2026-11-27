@@ -15,6 +15,7 @@
 **/dist/
 **/build/
 backend/wwwroot/
+backend/Recruitov.Host/wwwroot/
 backend/tickets/
 tickets/
 .npm

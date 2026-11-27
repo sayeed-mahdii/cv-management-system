@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Recruitov.Domain/Recruitov.Domain.csproj" />
+  <Project Path="Recruitov.Application/Recruitov.Application.csproj" />
+  <Project Path="Recruitov.Infrastructure/Recruitov.Infrastructure.csproj" />
+  <Project Path="Recruitov.Host/Recruitov.Host.csproj" />
+</Solution>
